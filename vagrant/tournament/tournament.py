@@ -4,23 +4,42 @@
 #
 
 import psycopg2
-
+import bleach
 
 def connect():
     """Connect to the PostgreSQL database.  Returns a database connection."""
-    return psycopg2.connect("dbname=tournament")
+    conn = psycopg2.connect("dbname=tournament")
 
 
 def deleteMatches():
     """Remove all the match records from the database."""
-
+    conn = psycopg2.connect("dbname=tournament")
+    c = conn.cursor()
+    query = "DELETE FROM Matches;"
+    c.execute(query)
+    conn.commit() 
+    conn.close() 
 
 def deletePlayers():
     """Remove all the player records from the database."""
-
+    conn = psycopg2.connect("dbname=tournament")
+    c = conn.cursor()
+    query = "DELETE FROM Players;"
+    c.execute(query)
+    conn.commit() 
+    conn.close() 
 
 def countPlayers():
     """Returns the number of players currently registered."""
+    conn = psycopg2.connect("dbname=tournament")
+    c = conn.cursor()
+    query = "SELECT COUNT (*) from Players;"
+    c.execute(query)
+    result = c.fetchall()
+    #print 'res is %s\n\n' % result
+    conn.close()
+    #print 'CountPlayers result is %s\n\n' % result[0][0]
+    return result[0][0]
 
 
 def registerPlayer(name):
@@ -32,7 +51,13 @@ def registerPlayer(name):
     Args:
       name: the player's full name (need not be unique).
     """
-
+    conn = psycopg2.connect("dbname=tournament")
+    c = conn.cursor()
+    #Note: structure below lets execute() do both string substition and prevention of SQL injection
+    query = "INSERT INTO Players (name) Values (%s);"
+    c.execute(query, (name,))
+    conn.commit() 
+    conn.close()
 
 def playerStandings():
     """Returns a list of the players and their win records, sorted by wins.
@@ -47,6 +72,15 @@ def playerStandings():
         wins: the number of matches the player has won
         matches: the number of matches the player has played
     """
+    conn = psycopg2.connect("dbname=tournament")
+    c = conn.cursor()
+    query = "SELECT * FROM Standings;"
+    c.execute(query)
+    result = c.fetchall()
+    conn.commit() 
+    #print 'playerStandings res is %s\n\n' % result
+    conn.close()
+    return result
 
 
 def reportMatch(winner, loser):
@@ -56,7 +90,13 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
- 
+    conn = psycopg2.connect("dbname=tournament")
+    c = conn.cursor()
+    query = "INSERT INTO Matches (winner,loser) Values ('%s','%s');" % (winner, loser)
+    c.execute(query)
+    conn.commit() 
+    conn.close()
+    return
  
 def swissPairings():
     """Returns a list of pairs of players for the next round of a match.
@@ -73,5 +113,41 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
+    conn = psycopg2.connect("dbname=tournament")
+    c = conn.cursor()
+    #query to get tuple:
+    query = "SELECT ID, NAME FROM Standings ORDER BY wins;"
+    c.execute(query)
+    tourneyPlayers = c.fetchall()
+    # print 'swissPairings query is %s' % tourneyPlayers
+    # print len(tourneyPlayers)
+    # print (tourneyPlayers[1] + tourneyPlayers[2])
+    # print type(tourneyPlayers)
+    # print type(Pairings(tourneyPlayers))
+    return Pairings(tourneyPlayers)
 
+def Pairings(playersAndScores):
+#players and scores go in, players in pairs come out
+    pairs = []
+    for i in range(0, len(playersAndScores),2):
+        pairs.append((playersAndScores[i] + playersAndScores[i+1]))
+   #alternative method
+    # p1 = playersAndScores[i]
+    # p2 = playersAndScores[i+1]
+    # p1_id = p1[0]
+    # p1_name = p1[1]
+    # p2_id = p2[0]
+    # p2_name = p2[1]
+    # pairs.append((p1_id, p1_name, p2_id, p2_name))
+    #print pairs
+    return pairs
+
+
+# advanced fancy-pants Christian's way
+# def PairWise(seq):
+#     seq = iter(seq)
+#     while seq:
+#         pair = next(seq)+next(seq)
+#         print pair
+#         yield pair
 
