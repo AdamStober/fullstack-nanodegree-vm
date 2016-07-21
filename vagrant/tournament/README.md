@@ -30,11 +30,13 @@ Instructions on configuring a vagrant virtual environment are at
 https://www.udacity.com/wiki/ud197/install-vagrant
 
 ### Operating
-Run a test suite to verify your code (tournament_test.py).
 To execute your tests, launch your Vagrant Virtual machine with the command "vagrant up".
 Log in to the virtual machine with the command "vagrant ssh".
-Navigate to the tournament project folder.
-Run "python tournament_test.py".
+Navigate to the tournament project folder with "cd /vagrant/tournament" from the vagrant prompt.
+Run PSQL from the command line with "psql"
+From the PSQL prompt import database by running "\i tournament.sql"
+Leave PSQL with "\q"
+From the vagrant prompt at the tournament folder, run "python tournament_test.py"
 If all tests pass, the tournament.py program is running successfully!
 
 
@@ -54,3 +56,4 @@ Thanks Udacity, Udacity Andy, and Disqus Christian !
 N/A: V1.0, created June 15, 2016
 V1.1, created June 22, 2016 - updated README
 V1.2, created July 7, 2016 - updated README and tournament.py
+V1.3, created July 20, 2016 - updated README and tournament.py

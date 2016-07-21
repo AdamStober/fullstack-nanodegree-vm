@@ -40,9 +40,7 @@ def countPlayers():
     query = "SELECT COUNT (*) from Players;"
     cursor.execute(query)
     result = cursor.fetchone()
-    # print 'res is %s\n\n' % result
     db.close()
-    # print 'CountPlayers result is %s\n\n' % result[0]
     return result[0]
 
 
@@ -94,7 +92,7 @@ def reportMatch(winner, loser):
       loser:  the id number of the player who lost
     """
     db, cursor = connect()
-    query = "INSERT INTO Matches (winner,loser) Values ('%s','%s');"
+    query = "INSERT INTO Matches (winner,loser) Values (%s,%s);"
     cursor.execute(query, (winner, loser))
     db.commit()
     db.close()
