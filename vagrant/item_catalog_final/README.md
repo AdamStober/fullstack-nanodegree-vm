@@ -61,3 +61,4 @@ Thanks Udacity, Udacity Andy Brown, and Disqus Christian (again)!
 
 ##### Changelog
 N/A: V1.0, created Aug 31, 2016
+Added login required decorator, improved comments, added delete cascade: V1.1, created Sep 7, 2016

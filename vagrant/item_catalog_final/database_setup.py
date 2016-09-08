@@ -14,8 +14,6 @@ class User(Base):
     email = Column(String(250), nullable=False)
     picture = Column(String(250))
 
-#***# why no "serialize"?
-
 class Restaurant(Base):
     __tablename__ = 'restaurant'
 
@@ -23,8 +21,8 @@ class Restaurant(Base):
     name = Column(String(250), nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
+    menu_item = relationship("MenuItem", cascade="save-update, merge, delete")
 
-#***# why no "serialize" user_id as shown in video at 0:14? https://www.youtube.com/watch?v=aHRTFkT1oug
     @property
     def serialize(self):
         """Return object data in easily serializeable format"""
