@@ -46,6 +46,11 @@ After you have created a database by running "database_setup.py", you can run yo
 
 Access and test your application by visiting http://localhost:5000 locally on your browser.
 
+### Deploying to Heroku
+
+See instructions at https://www.udacity.com/wiki/ud330/deploy
+
+To allow logins, be sure to add Heroku URL to Facebook and Google Developer Consoles
 
 #### Copyright and licensing information
 Some code uses Udacity's Full Stack Web Developer materials.  Otherwise, all the files are belong to me, Adam.
@@ -62,3 +67,4 @@ Thanks Udacity, Udacity Andy Brown, and Disqus Christian (again)!
 ##### Changelog
 N/A: V1.0, created Aug 31, 2016
 Added login required decorator, improved comments, added delete cascade: V1.1, created Sep 7, 2016
+Modified to deploy to Heroku: V1.2, created January 12, 2017

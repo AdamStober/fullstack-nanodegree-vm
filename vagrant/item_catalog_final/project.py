@@ -21,7 +21,7 @@ APPLICATION_NAME = "Restaurant Menus - Web client 1"
 
 
 # Connect to Database and create database session
-engine = create_engine('sqlite:///restaurantmenuwithusers.db')
+engine = create_engine('postgres://taqbyxktpkyubg:cb2e9a7372d1fd11c0a89885374025ce452c0cd70c0cf802bb6ccc4e17aa9de1@ec2-54-243-197-180.compute-1.amazonaws.com:5432/deu6t3aqul48fj')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -444,7 +444,7 @@ def deleteMenuItem(restaurant_id,menu_id):
   else:
       return render_template('deleteMenuItem.html', item = itemToDelete)
 
-if __name__ == '__main__':
-  app.secret_key = 'super_secret_key'
-  app.debug = True
-  app.run(host = '0.0.0.0', port = 5000)
+#if __name__ == '__main__':
+app.secret_key = 'super_secret_key'
+app.debug = True
+#app.run(host = '0.0.0.0', port = 5000)
